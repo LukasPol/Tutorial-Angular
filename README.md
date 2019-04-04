@@ -33,7 +33,7 @@ ng g s modelo/tarefas
 
 Primeira coisa entrar no arquivo src>>app>>app.component.html e iremos apagar tudo e colocar..
 
-````html
+```html
 <h1>{{ title }}</h1>
 
 <app-pega-tarefa></app-pega-tarefa>
