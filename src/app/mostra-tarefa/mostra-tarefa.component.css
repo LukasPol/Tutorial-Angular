@@ -1,0 +1,13 @@
+.end{
+    text-decoration: line-through;
+    text-decoration-color: red;
+    opacity: .7;
+    /* text-decoration-style: solid; */
+}
+ul{
+    list-style: none;
+}
+li{
+    width: 200px;
+    word-wrap: break-word;
+}

@@ -33,7 +33,7 @@ ng g s modelo/tarefas
 
 Primeira coisa entrar no arquivo src>>app>>app.component.html e iremos apagar tudo e colocar..
 
-````html
+```html
 <h1>{{ title }}</h1>
 
 <app-pega-tarefa></app-pega-tarefa>
@@ -130,4 +130,133 @@ lista(){
 
 ### Com serviço
 
-Agora tem muitas coisas feitas, iremos
+Já tem algumas coisas feitas, então iremos mudar de lugar, algumas coisas e acrescentar outras..
+
+Primeiro vamos copiar todas as FUNÇÕES e as VARIÁVEIS do arquivo `pega-tarefa.component.ts` e colar no arquivo `modelo>>tarefa.service.ts`. E mudararemos a função adicionarTarefa(), tirando a ultima linha e tirando o tarefa.value. O arquivo ficará assim...
+
+```ts
+// arquivo tarefa.service.ts
+
+export class TarefaService {
+	private tarefas: string[];
+
+	constructor() { 
+		this.tarefas = [];
+	}
+
+	adicionaTarefa(tarefa){
+		this.tarefas.push(tarefa);
+	}
+
+	sizeLista() {
+		return this.tarefas.length;
+	}
+
+	lista() {
+		return this.tarefas;
+	}
+}
+```
+
+Pronto, serviço está feito. Vamos colar as funções sizeLista() e lista() que estão no arquivo `pega-tarefa.component.ts` para o arquivo `mostra-tarefa.component.ts`, e vamos acrescentar a chamada do serviço neste arquivo. Ficará assim..
+
+```ts
+// arquivo mostra-tarefa.component.ts
+export class MostraTarefaComponent implements OnInit {
+
+  constructor(private t: TarefaService) { }
+
+  ngOnInit() {
+  }
+
+  sizeLista() {
+    return this.t.sizeLista();
+  }
+
+  lista() {
+    return this.t.lista();
+  }
+}
+```
+
+No construtor estamos inicializando o serviço, que será chamado `t`. E nas funções utilizamos as funções do serviço, poderia no template já chamar a função do serviço sem precisar criar as duas função, mas utilizaremos a boa prática de cada template usar a função do seu componente :)
+
+Agora mexeremos no arquivo `pega-tarefa.component.ts`. Primeiro apagaremos as variveis que existem e as funções sizeLista() e lista(). Ficará assim...
+
+```ts
+// arquivo pega-tarefa.component.ts
+export class PegaTarefaComponent implements OnInit {
+
+  constructor( private t:TarefaService) { }
+
+  ngOnInit() {
+  }
+
+  adicionaTarefa(tarefa){
+    this.t.adicionaTarefa(tarefa.value);
+    tarefa.value = '';
+  }
+}
+```
+
+Agora iremos aos templates, arquivos html, primeiro mudaremos o template do mostra tarefa. Iremos mover uma parte do html do arquivo `pega-tarefa.component.html` para `mostra-tarefa.component.html`, o seguinte conteúdo.
+
+```html
+<!-- Colar no mostra-tarefa.component.html -->
+
+<div *ngIf="sizeLista() > 0">
+  <ul *ngFor="let t of lista()">
+    <li>{{ t }}</li>
+  </ul>
+</div>
+```
+
+E no arquivo `pega-tarefa.component.html`, colocaremos a tag `<app-mostra-tarefa>`, no final do arquivo.
+
+## Marcado ou não como concluída
+
+Tua aplicação está feita. Só vamos deixar o usuário marca tarefa como concluída ou não, para isso vamos mexer no css. Vamos criar uma classe que colocará um risco na tarefa e mexerá na opacidade. E quando o usuário clicar no elemento, este recebá a classe.
+
+No arquivo `mostra-tarefa.component.css`, e adicione o seguinte código.
+
+```css
+/* mostra-tarefa.component.css */
+.end{
+	/* Linha no meio da palavra */
+	text-decoration: line-through;
+	/* cor da linha */
+	text-decoration-color: red;
+	/* "Clareando a tarefa" */
+    opacity: .7;
+}
+```
+
+Agora vamos ao template, para criar um evento de quando clicar chamar uma função para colocar ou não a linha vermelha.
+
+```html
+<!-- mostra-tarefa.component.html -->
+
+<div *ngIf="sizeLista() > 0">
+  <ul *ngFor="let t of lista()">
+    <li (click)="riscaTarefa(tarefaI)" #tarefaI>{{ t }}</li>
+  </ul>
+</div>
+```
+
+Então devemos criar a função riscaTarefa(), que receberá uma variável que é o proprio li. No arquivo `mostra-tarefa.component.ts`..
+
+```ts
+riscaTarefa(tarefa){
+	let classes = tarefa.classList;
+	if (classes.length === 0){
+      tarefa.classList = 'end';
+    } else {
+      tarefa.classList = '';
+    }
+}
+```
+
+Criamos uma variável `classes` para receber todas as variáveis do elemento, depois verificamos a quantidade de variaveis do elemento, se for igual a 0, significa que ela não está marcada, então adicionará a classe end. Caso contrário, ficará sem nenhuma classe.
+
+
+Pronto, finalizado o programa, caso rode meu programa está diferente do teu, pois fiz algumas outras alterações.. rsrs

@@ -1,0 +1,5 @@
+<div *ngIf="sizeLista() > 0">
+  <ul *ngFor="let t of lista()">
+    <li (click)="riscaTarefa(tarefaI)" #tarefaI>{{ t }}</li>
+  </ul>
+</div>
