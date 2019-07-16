@@ -12,7 +12,7 @@ Enfim..
 ng new TarefasDiarias
 ```
 
-Agora, senta e relaxa, se quiser fazer um café enquanto espera fique a vontade, aproveite e leve um copo para mim amanhã. kkkk
+Agora, senta e relaxa, se quiser fazer um café enquanto espera fique a vontade, aproveite
 
 Já acabado de criar a aplicação, vamos criar uns componentes. Será um para pegar as tarefas e outro para mostrar.
 
@@ -21,7 +21,7 @@ ng g c pegaTarefa
 ng g c mostraTarefa
 ```
 
-Esse é mais rápido. Feito isso, vamos criar um serviço. Não sei se Bruno irá cobrar serviço, mas fique a vontade de fazer sem.
+Esse é mais rápido. Feito isso, vamos criar um serviço. Eu ensinarei a fazer com e sem serviço.
 
 ```
 ng g s modelo/tarefas
@@ -64,7 +64,7 @@ Agora vamos para os components.. Primeiro no `pega-tarefa`. Vamos no html dele e
 </form>
 ```
 
-Sei que fiz algumas coisas que Bruno não explicou, mas vou explicar, e dizer pq eu acho assim mais fácil..
+Pera que vou explicar oq siginifica aquelas hastags, não é para ganhar curtida, pera..
 
 Primeiro o seria `#tarefa`?? A '#' serve para declarar uma variável loca no html de um component. Só funciona no html e não no ts. No button foi criado um evento, quando clicar no botão será chamada determinada função, neste caso é "adicionaTarefa", que recebe a variável 'tarefa', eu não coloquei `.value`, mas fique a vontade, isso serve para recebe só o valor da variavel.
 
